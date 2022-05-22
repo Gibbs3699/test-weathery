@@ -8,8 +8,13 @@
 import UIKit
 
 class WeatherView: UIView {
-
-    let rootStackView: UIStackView = {
+    
+    // animation
+    private var animateLeadingAnchor: NSLayoutConstraint?
+    private var leadingEdgeOnScreen: CGFloat = 16
+    private var leadingEdgeOffScreen: CGFloat = -1000
+    
+    private let rootStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
@@ -18,7 +23,7 @@ class WeatherView: UIView {
         return stackView
     }()
     
-    let horizontalStackView: UIStackView = {
+    private let horizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
@@ -75,6 +80,7 @@ class WeatherView: UIView {
         super.init(frame: frame)
         
         setupConstraints()
+        animate()
     }
     
     required init?(coder: NSCoder) {
@@ -82,6 +88,7 @@ class WeatherView: UIView {
     }
     
     func configure(with vm: CurrentWeatherViewModel) {
+
         DispatchQueue.main.async { [weak self] in
             self?.cityLabel.text = vm.cityName
             self?.temperatureLabel.text = vm.temperatureString
@@ -89,6 +96,7 @@ class WeatherView: UIView {
             self?.conditionLabel.text = vm.conditionDescription
             self?.conditionImageView.image = UIImage(named: vm.conditionName)
         }
+        
     }
 
 }
@@ -119,7 +127,26 @@ extension WeatherView {
             // conditionImageView
             conditionImageView.widthAnchor.constraint(equalToConstant: 300),
             conditionImageView.heightAnchor.constraint(equalToConstant: 200),
-        
+            
         ])
+        
+        // animation
+        animateLeadingAnchor = rootStackView.topAnchor.constraint(equalTo: topAnchor, constant: leadingEdgeOffScreen)
+        animateLeadingAnchor?.isActive = true
+    }
+}
+
+// MARK: - Animations
+
+extension WeatherView {
+    
+    private func animate() {
+        let duration = 0.5
+        let animator = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) {
+            self.animateLeadingAnchor?.constant = self.leadingEdgeOnScreen
+            self.layoutIfNeeded()
+        }
+        
+        animator.startAnimation()
     }
 }

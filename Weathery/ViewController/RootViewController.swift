@@ -24,11 +24,11 @@ class RootViewController: UIViewController {
         view.layer.cornerRadius = 50
         view.clipsToBounds = true
         view.layer.borderColor = UIColor(red: 69/255, green: 39/255, blue: 139/255, alpha: 0.9).cgColor
-        view.backgroundBlur(withStyle: .extraLight)
+        view.backgroundBlur(withStyle: .light)
         return view
     }()
     
-    let rootStackView: UIStackView = {
+    private let rootStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
@@ -37,22 +37,13 @@ class RootViewController: UIViewController {
         return stackView
     }()
     
-    let horizontalStackView: UIStackView = {
+    private let horizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.spacing = 25
         
         return stackView
-    }()
-    
-    
-    private var innerContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(red: 69/255, green: 39/255, blue: 139/255, alpha: 1.0)
-        view.layer.cornerRadius = 50
-        view.clipsToBounds = true
-        return view
     }()
     
     private var searchTextField: UITextField = {
@@ -89,6 +80,7 @@ class RootViewController: UIViewController {
         super.viewDidLoad()
         
         setupConstraints()
+
     }
     
     @objc func searchPressed(sender: UIButton) {
@@ -98,6 +90,7 @@ class RootViewController: UIViewController {
                 switch result {
                 case .Success(let vm):
                     self?.weatherView.configure(with: CurrentWeatherViewModel(conditionId: vm.weather[0].id, cityName: vm.name, temperature: vm.main.temp, humidity:  vm.main.humidity, conditionDescription: vm.weather[0].description))
+                    
                 case .Error(let error):
                     print("Fail to fetch the weather: \(error)")
                 }
@@ -115,14 +108,13 @@ extension RootViewController {
     private func setupConstraints() {
         view.addSubview(background)
         view.addSubview(rootContainerView)
-        view.addSubview(innerContainerView)
         view.addSubview(searchTextField)
         view.addSubview(searchButton)
         view.addSubview(weatherView)
         
         background.translatesAutoresizingMaskIntoConstraints = false
         rootContainerView.translatesAutoresizingMaskIntoConstraints = false
-        innerContainerView.translatesAutoresizingMaskIntoConstraints = false
+
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         rootStackView.translatesAutoresizingMaskIntoConstraints = false
         searchButton.translatesAutoresizingMaskIntoConstraints = false
@@ -148,12 +140,6 @@ extension RootViewController {
             searchTextField.topAnchor.constraint(equalTo: rootContainerView.topAnchor, constant: 30),
             searchTextField.centerXAnchor.constraint(equalTo: rootContainerView.centerXAnchor),
             
-            // innerContainerView
-            innerContainerView.heightAnchor.constraint(equalToConstant: 100),
-            innerContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            innerContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            innerContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
             // conditionImageView
             searchButton.widthAnchor.constraint(equalToConstant: 70),
             searchButton.heightAnchor.constraint(equalToConstant: 70),
@@ -163,6 +149,8 @@ extension RootViewController {
             // weatherView
             weatherView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
              weatherView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
         ])
     }
 }
+
