@@ -1,14 +1,16 @@
 //
-//  WeatherViewController.swift
+//  RootViewController.swift
 //  Weathery
 //
-//  Created by TheGIZzz on 20/5/2565 BE.
+//  Created by TheGIZzz on 22/5/2565 BE.
 //
 
 import UIKit
 
-class WeatherViewController: UIViewController {
-
+class RootViewController: UIViewController {
+    
+    private var weatherView = WeatherView()
+    
     private let background: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "background")
@@ -30,7 +32,7 @@ class WeatherViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.spacing = 10
+        stackView.spacing = 5
         
         return stackView
     }()
@@ -56,73 +58,29 @@ class WeatherViewController: UIViewController {
     private var searchTextField: UITextField = {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "enter location...", attributes: [
-            .foregroundColor: UIColor.white,
+            .foregroundColor: UIColor.white.withAlphaComponent(0.5),
             .font: UIFont.systemFont(ofSize: 16.0)
         ])
-//        textField.placeholder = "enter location..."
         textField.textAlignment = .center
         textField.backgroundColor = UIColor(red: 69/255, green: 39/255, blue: 139/255, alpha: 0.2)
         textField.layer.cornerRadius = 20
         textField.addShadow(offset: CGSize.init(width: 0, height: 2), color: UIColor(red: 196/255, green: 39/255, blue: 251/255, alpha: 0.5), radius: 10, opacity: 0.8)
+        textField.textColor = .white
+        
         return textField
     }()
-    
-    private var conditionImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "sun.max")
-        imageView.tintColor = .label
-        return imageView
-    }()
-    
-    private var temperatureLabel: UILabel = {
-        let label = UILabel()
-//        label.font = UIFont.systemFont(ofSize: 30)
-////        label.text = "hum: 32"
-//        label.textColor = .white
-        label.setImageWithText(text: "32", leftIcon: UIImage(named: "temperature"), rightIcon: nil)
-        label.font = UIFont.systemFont(ofSize: 30)
-        label.textColor = .white
-        
-        return label
-    }()
-    
-    private var humidityLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 30)
-        label.setImageWithText(text: "32", leftIcon: UIImage(named: "humidity"), rightIcon: nil)
-        label.textColor = .white
-        
-        return label
-    }()
-    
-    private var cityLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 34)
-        label.text = "Bangkok".uppercased()
-        label.textColor = .white
-        
-        return label
-    }()
-    
-    private var conditionLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.text = "Clear Sky"
-        label.textColor = .white.withAlphaComponent(0.5)
-        
-        return label
-    }()
-    
-    
+
     private var searchButton: UIButton = {
         let button = UIButton()
-        var image = UIImage(named: "location")
-        button.setBackgroundImage(image, for: .normal)
-//        button.addTarget(self, action: #selector(searchPressed(_:)), for: .primaryActionTriggered)
+        let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .thin, scale: .small)
+        var image = UIImage(systemName: "location.magnifyingglass", withConfiguration: config)?.withTintColor(UIColor.purple, renderingMode: .alwaysOriginal)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(searchPressed), for: .primaryActionTriggered)
         button.tintColor = .label
-        button.backgroundColor =  UIColor(red: 69/255, green: 39/255, blue: 139/255, alpha: 0.9)
+        button.backgroundColor = .white
+        button.layer.borderColor = UIColor(red: 69/255, green: 39/255, blue: 139/255, alpha: 1.0).cgColor
         button.layer.cornerRadius = 30
-        button.imageEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 10, right: 10)
+        button.addShadow(offset: CGSize.init(width: 0, height: 5), color: UIColor(red: 196/255, green: 39/255, blue: 251/255, alpha: 0.5), radius: 10, opacity: 0.6)
         
          return button
     }()
@@ -132,42 +90,48 @@ class WeatherViewController: UIViewController {
         
         setupConstraints()
     }
+    
+    @objc func searchPressed(sender: UIButton) {
+        if let city = searchTextField.text {
+            Webservice.shared.getCurrentWeather(city: city, completion: {
+                [weak self] (result) in
+                switch result {
+                case .Success(let vm):
+                    self?.weatherView.configure(with: CurrentWeatherViewModel(conditionId: vm.weather[0].id, cityName: vm.name, temperature: vm.main.temp, humidity:  vm.main.humidity, conditionDescription: vm.weather[0].description))
+                case .Error(let error):
+                    print("Fail to fetch the weather: \(error)")
+                }
+                
+                print(result)
+            })
+        }
+    }
+    
 
 }
 
-extension WeatherViewController {
+extension RootViewController {
     
     private func setupConstraints() {
         view.addSubview(background)
         view.addSubview(rootContainerView)
         view.addSubview(innerContainerView)
         view.addSubview(searchTextField)
-        rootStackView.addArrangedSubview(cityLabel)
-        rootStackView.addArrangedSubview(conditionImageView)
-        rootStackView.addArrangedSubview(conditionLabel)
-        horizontalStackView.addArrangedSubview(temperatureLabel)
-        horizontalStackView.addArrangedSubview(humidityLabel)
-        rootStackView.addArrangedSubview(horizontalStackView)
-        view.addSubview(rootStackView)
         view.addSubview(searchButton)
+        view.addSubview(weatherView)
         
         background.translatesAutoresizingMaskIntoConstraints = false
         rootContainerView.translatesAutoresizingMaskIntoConstraints = false
         innerContainerView.translatesAutoresizingMaskIntoConstraints = false
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
-        temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
-        humidityLabel.translatesAutoresizingMaskIntoConstraints = false
-        cityLabel.translatesAutoresizingMaskIntoConstraints = false
-        conditionLabel.translatesAutoresizingMaskIntoConstraints = false
-        conditionImageView.translatesAutoresizingMaskIntoConstraints = false
         rootStackView.translatesAutoresizingMaskIntoConstraints = false
         searchButton.translatesAutoresizingMaskIntoConstraints = false
-        
+        weatherView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             
             // background
-            background.topAnchor.constraint(equalTo: view.topAnchor),
+             background.topAnchor.constraint(equalTo: view.topAnchor),
              background.leadingAnchor.constraint(equalTo: view.leadingAnchor),
              background.trailingAnchor.constraint(equalTo: view.trailingAnchor),
              background.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -190,19 +154,15 @@ extension WeatherViewController {
             innerContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             innerContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            // rootStackView
-            rootStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            rootStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
-            
-            // conditionImageView
-            conditionImageView.widthAnchor.constraint(equalToConstant: 200),
-            conditionImageView.heightAnchor.constraint(equalToConstant: 200),
-            
             // conditionImageView
             searchButton.widthAnchor.constraint(equalToConstant: 70),
             searchButton.heightAnchor.constraint(equalToConstant: 70),
             searchButton.topAnchor.constraint(equalTo:        searchTextField.topAnchor, constant: -10),
-            searchButton.leftAnchor.constraint(equalTo:        searchTextField.leftAnchor)
+            searchButton.leftAnchor.constraint(equalTo:        searchTextField.leftAnchor),
+            
+            // weatherView
+            weatherView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+             weatherView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
     }
 }
