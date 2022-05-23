@@ -18,7 +18,14 @@ class CurrentWeatherView: UIView {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.spacing = 5
+        
+        var spacing: CGFloat = 5
+        let currentScreenType = UIDevice.current.screenType
+        if currentScreenType == UIDevice.ScreenType.iPhones_5_5s_5c_SE || currentScreenType == UIDevice.ScreenType.iPhones_6_6s_7_8 {
+            spacing = 0
+        }
+        
+        stackView.spacing = spacing
         
         return stackView
     }()
@@ -102,6 +109,7 @@ class CurrentWeatherView: UIView {
 
 }
 
+// MARK: - Setup Constraints
 extension CurrentWeatherView {
     
     private func setupConstraints() {
@@ -125,16 +133,21 @@ extension CurrentWeatherView {
             // rootStackView
             rootStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            
-            // conditionImageView
-            conditionImageView.widthAnchor.constraint(equalToConstant: 300),
-            conditionImageView.heightAnchor.constraint(equalToConstant: 200),
-            
         ])
         
         // animation
         animateLeadingAnchor = rootStackView.topAnchor.constraint(equalTo: topAnchor, constant: leadingEdgeOffScreen)
         animateLeadingAnchor?.isActive = true
+        
+        // conditionImageView
+        let currentScreenType = UIDevice.current.screenType
+        if currentScreenType == UIDevice.ScreenType.iPhones_5_5s_5c_SE || currentScreenType == UIDevice.ScreenType.iPhones_6_6s_7_8 {
+            conditionImageView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+            conditionImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        } else {
+            conditionImageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+            conditionImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        }
     }
 }
 

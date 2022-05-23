@@ -167,6 +167,8 @@ class CurrentWeatherViewController: UIViewController, CLLocationManagerDelegate 
 
 }
 
+// MARK: - Setup Constraints
+
 extension CurrentWeatherViewController {
     
     private func setupConstraints() {
@@ -191,12 +193,6 @@ extension CurrentWeatherViewController {
              background.leadingAnchor.constraint(equalTo: view.leadingAnchor),
              background.trailingAnchor.constraint(equalTo: view.trailingAnchor),
              background.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-             
-            // rootContainerView
-             rootContainerView.heightAnchor.constraint(equalToConstant: 200),
-             rootContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-             rootContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-             rootContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             // searchTextField
             searchTextField.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 80),
@@ -211,10 +207,26 @@ extension CurrentWeatherViewController {
             searchButton.leftAnchor.constraint(equalTo:        searchTextField.leftAnchor),
             
             // weatherView
-            weatherView.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            weatherView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
              weatherView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
         ])
+        
+        // rootContainerView
+        let currentScreenType = UIDevice.current.screenType
+        if currentScreenType == UIDevice.ScreenType.iPhones_5_5s_5c_SE {
+            // rootContainerView
+            rootContainerView.heightAnchor.constraint(equalToConstant: 160).isActive = true
+             rootContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 30).isActive = true
+        }else if currentScreenType == UIDevice.ScreenType.iPhones_6_6s_7_8 {
+            rootContainerView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+            rootContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 30).isActive = true
+        }else {
+            rootContainerView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+            rootContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        }
+        
+        rootContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        rootContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
 }
 

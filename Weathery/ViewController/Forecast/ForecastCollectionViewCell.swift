@@ -105,6 +105,8 @@ class ForecastCollectionViewCell: UICollectionViewCell {
     
 }
 
+// MARK: - Setup Constraints
+
 extension ForecastCollectionViewCell {
     
     private func setupConstraints() {
