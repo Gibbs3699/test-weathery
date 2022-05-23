@@ -92,7 +92,7 @@ class WeatherView: UIView {
         DispatchQueue.main.async { [weak self] in
             self?.cityLabel.text = vm.cityName
             self?.temperatureLabel.text = vm.temperatureString
-            self?.humidityLabel.text = String(vm.humidity)
+            self?.humidityLabel.text = vm.humidityString
             self?.conditionLabel.text = vm.conditionDescription
             self?.conditionImageView.image = UIImage(named: vm.conditionName)
             UserDefaults.standard.set("\(vm.cityName )", forKey: "SelectedCity")

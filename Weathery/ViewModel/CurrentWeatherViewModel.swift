@@ -19,7 +19,18 @@ struct CurrentWeatherViewModel {
 
     var temperatureString : String {
         let tempRounded = String(format: "%.1f", temperature)
-        return "\(tempRounded) °C"
+        
+        if UserDefaults.standard.value(forKey: "unit") as! String == "metric" {
+            return "\(tempRounded) °C"
+        } else {
+            return "\(tempRounded) °F"
+        }
+    }
+    
+    var humidityString : String {
+        let humidity = String(format: "%.1f", humidity)
+        
+        return "\(humidity) °"
     }
 
     var conditionName: String {
@@ -42,6 +53,5 @@ struct CurrentWeatherViewModel {
             return "cloud"
         }
     }
-
 }
 

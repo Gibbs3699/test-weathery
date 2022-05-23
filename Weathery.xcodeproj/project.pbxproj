@@ -28,6 +28,9 @@
 		DC686AD8283AB95400414DCF /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686AD7283AB95400414DCF /* Int+Extension.swift */; };
 		DC686ADA283B4C6700414DCF /* ForecastCollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686AD9283B4C6700414DCF /* ForecastCollectionTableViewCell.swift */; };
 		DC686ADC283B735A00414DCF /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686ADB283B735A00414DCF /* UIImageView+Extension.swift */; };
+		DC686AE0283B8FBC00414DCF /* SettingsUnitTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686ADF283B8FBC00414DCF /* SettingsUnitTableViewController.swift */; };
+		DC686AE2283B934800414DCF /* SettingUnitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686AE1283B934800414DCF /* SettingUnitTableViewCell.swift */; };
+		DC686AE4283BA04500414DCF /* SettingUnitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686AE3283BA04500414DCF /* SettingUnitViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +58,9 @@
 		DC686AD7283AB95400414DCF /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		DC686AD9283B4C6700414DCF /* ForecastCollectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCollectionTableViewCell.swift; sourceTree = "<group>"; };
 		DC686ADB283B735A00414DCF /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		DC686ADF283B8FBC00414DCF /* SettingsUnitTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUnitTableViewController.swift; sourceTree = "<group>"; };
+		DC686AE1283B934800414DCF /* SettingUnitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingUnitTableViewCell.swift; sourceTree = "<group>"; };
+		DC686AE3283BA04500414DCF /* SettingUnitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingUnitViewModel.swift; sourceTree = "<group>"; };
 		F88E00213F34CECD5D3AC869 /* Pods-Weathery.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weathery.debug.xcconfig"; path = "Target Support Files/Pods-Weathery/Pods-Weathery.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,6 +174,8 @@
 				DC686ACD283A506800414DCF /* ForecastWeatherViewController.swift */,
 				DC686AD9283B4C6700414DCF /* ForecastCollectionTableViewCell.swift */,
 				DC686AD1283A776400414DCF /* ForecastCollectionViewCell.swift */,
+				DC686ADF283B8FBC00414DCF /* SettingsUnitTableViewController.swift */,
+				DC686AE1283B934800414DCF /* SettingUnitTableViewCell.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -177,6 +185,7 @@
 			children = (
 				DC686AC62839494A00414DCF /* CurrentWeatherViewModel.swift */,
 				DC686AD5283AB68500414DCF /* ForecastWeatherViewModel.swift */,
+				DC686AE3283BA04500414DCF /* SettingUnitViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -305,12 +314,15 @@
 				DC686AC9283A4B6D00414DCF /* RootViewController.swift in Sources */,
 				DC686AC12839364500414DCF /* Webservice.swift in Sources */,
 				DC686ADA283B4C6700414DCF /* ForecastCollectionTableViewCell.swift in Sources */,
+				DC686AE2283B934800414DCF /* SettingUnitTableViewCell.swift in Sources */,
 				DC686AB7283811EF00414DCF /* UILabel+Extension.swift in Sources */,
 				DC686ABF2839353D00414DCF /* CurrentWeather.swift in Sources */,
+				DC686AE0283B8FBC00414DCF /* SettingsUnitTableViewController.swift in Sources */,
 				DC686ADC283B735A00414DCF /* UIImageView+Extension.swift in Sources */,
 				DC686AA228379D3400414DCF /* SceneDelegate.swift in Sources */,
 				DC686AC72839494A00414DCF /* CurrentWeatherViewModel.swift in Sources */,
 				DC686AB52837A6EB00414DCF /* UIView+Extension.swift in Sources */,
+				DC686AE4283BA04500414DCF /* SettingUnitViewModel.swift in Sources */,
 				DC686ACC283A502100414DCF /* MainTabBarViewController.swift in Sources */,
 				DC686ABC2839334200414DCF /* APIClient.swift in Sources */,
 			);

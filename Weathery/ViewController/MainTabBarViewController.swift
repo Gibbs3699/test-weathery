@@ -26,25 +26,33 @@ extension MainTabBarViewController {
         
         let vc1 = UINavigationController(rootViewController: RootViewController())
         let vc2 = UINavigationController(rootViewController: ForecastWeatherViewController())
+        let vc3 = UINavigationController(rootViewController: SettingsUnitTableViewController())
         
-        vc1.tabBarItem.image = UIImage(systemName: "house")
-        vc2.tabBarItem.image = UIImage(systemName: "play.circle")
+        vc1.tabBarItem.image = UIImage(systemName: "location.fill")
+        vc2.tabBarItem.image = UIImage(systemName: "sun.haze")
+        vc3.tabBarItem.image = UIImage(systemName: "sun.min")
         
         vc1.title = "Current Weather"
-        vc2.title = "Forecase Weather"
+        vc2.title = "Forecast Weather"
+        vc3.title = "Setting Unit"
         
-        tabBar.backgroundColor = .clear
+        
+        let app = UITabBarAppearance()
+        app.backgroundEffect = .none
+        app.shadowColor = .clear
+        tabBar.standardAppearance = app
+        
         tabBar.tintColor = .white
         tabBar.unselectedItemTintColor = .white.withAlphaComponent(0.5)
         
-        setViewControllers([vc1, vc2], animated: true)
+        setViewControllers([vc1, vc2, vc3], animated: true)
     }
     
     
     private func setupConstraints() {
         
         let layer = CAShapeLayer()
-        layer.path = UIBezierPath(roundedRect: CGRect(x: 30, y: self.tabBar.bounds.minY - 5, width: self.tabBar.bounds.width - 60, height: self.tabBar.bounds.height + 20), cornerRadius: (self.tabBar.frame.width/2)).cgPath
+        layer.path = UIBezierPath(roundedRect: CGRect(x: 20 , y: self.tabBar.bounds.minY - 10, width: self.tabBar.bounds.width - 30, height: self.tabBar.bounds.height + 20), cornerRadius: (self.tabBar.frame.width/2)).cgPath
         layer.shadowColor = UIColor.lightGray.cgColor
         layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
         layer.shadowRadius = 25.0
@@ -56,7 +64,7 @@ extension MainTabBarViewController {
         layer.fillColor = UIColor(red: 69/255, green: 39/255, blue: 139/255, alpha: 1.0).cgColor
   
         self.tabBar.layer.insertSublayer(layer, at: 0)
-        self.tabBar.itemWidth = 120
+        self.tabBar.itemWidth = 50
         self.tabBar.itemPositioning = .centered
     }
 }

@@ -9,6 +9,8 @@ import UIKit
 
 class RootViewController: UIViewController {
     
+    private var settingUnitViewModel = SettingUnitViewModel()
+    
     private var weatherView = WeatherView()
     
     private let background: UIImageView = {
@@ -80,27 +82,36 @@ class RootViewController: UIViewController {
         super.viewDidLoad()
         
         setupConstraints()
-
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let city = UserDefaults.standard.string(forKey: "SelectedCity") ?? ""
+        loadCuerrentWeather(city: city)
     }
     
     @objc func searchPressed(sender: UIButton) {
         if let city = searchTextField.text {
-            Webservice.shared.getCurrentWeather(city: city, completion: {
-                [weak self] (result) in
-                switch result {
-                case .Success(let vm):
-                    self?.weatherView.configure(with: CurrentWeatherViewModel(conditionId: vm.weather[0].id, cityName: vm.name, temperature: vm.main.temp, humidity:  vm.main.humidity, conditionDescription: vm.weather[0].description))
-                    
-                case .Error(let error):
-                    print("Fail to fetch the weather: \(error)")
-                }
-                
-                print(result)
-            })
             
+            loadCuerrentWeather(city: city)
         }
     }
     
+    private func loadCuerrentWeather(city: String) {
+        
+        Webservice.shared.getCurrentWeather(city: city, completion: {
+            [weak self] (result) in
+            switch result {
+            case .Success(let vm):
+                self?.weatherView.configure(with: CurrentWeatherViewModel(conditionId: vm.weather[0].id, cityName: vm.name, temperature: vm.main.temp, humidity:  vm.main.humidity, conditionDescription: vm.weather[0].description))
+                
+            case .Error(let error):
+                print("Fail to fetch the weather: \(error)")
+            }
+            
+            print(result)
+        })
+    }
 
 }
 

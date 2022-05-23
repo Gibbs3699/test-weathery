@@ -14,7 +14,7 @@ class ForecastWeatherViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(red: 0.29, green: 0.224, blue: 0.498, alpha: 1.0)
         
         tableView.register(ForecastCollectionTableViewCell.self, forCellReuseIdentifier: ForecastCollectionTableViewCell.identifier)
         tableView.delegate = self
@@ -23,7 +23,20 @@ class ForecastWeatherViewController: UITableViewController {
         
         let city = UserDefaults.standard.string(forKey: "SelectedCity") ?? ""
         print("City Forecast:", city)
+        loadForecastWeather(city: city)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        forecastWeather = []
+        
+        let city = UserDefaults.standard.string(forKey: "SelectedCity") ?? ""
+        print("City Forecast:", city)
+        loadForecastWeather(city: city)
+    }
+    
+    private func loadForecastWeather(city: String) {
         Webservice.shared.getForecastWeather(city: city, completion: {
             [weak self] (result) in
             switch result {
@@ -39,13 +52,6 @@ class ForecastWeatherViewController: UITableViewController {
             
             print(result)
         })
-        
-        navigationController?.navigationBar.isHidden = true
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        forecastWeather = []
     }
     
     // MARK: - Table view data source
@@ -59,8 +65,8 @@ class ForecastWeatherViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else {return}
         header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 20, y: header.bounds.origin.y, width: 50, height: header.bounds.height)
-        header.textLabel?.textColor = .black
+        header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 20, y: header.bounds.origin.y, width: 80, height: header.bounds.height)
+        header.textLabel?.textColor = .white
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

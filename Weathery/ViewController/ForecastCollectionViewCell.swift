@@ -17,7 +17,8 @@ class ForecastCollectionViewCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.spacing = 5
-
+        stackView.backgroundColor = .white.withAlphaComponent(0.3)
+        stackView.layer.cornerRadius = 10
         return stackView
     }()
     
@@ -35,7 +36,7 @@ class ForecastCollectionViewCell: UICollectionViewCell {
         label.text = "05:00"
         label.font = UIFont.systemFont(ofSize: 10)
         label.textAlignment = .center
-        label.textColor = .gray
+        label.textColor = .white
         return label
     }()
     
@@ -50,7 +51,7 @@ class ForecastCollectionViewCell: UICollectionViewCell {
         label.text = "32"
         label.font = UIFont.systemFont(ofSize: 12)
         label.textAlignment = .center
-        label.textColor = .gray
+        label.textColor = .white
         return label
     }()
     
@@ -59,7 +60,7 @@ class ForecastCollectionViewCell: UICollectionViewCell {
         label.text = "32"
         label.font = UIFont.systemFont(ofSize: 12)
         label.textAlignment = .center
-        label.textColor = .gray
+        label.textColor = .white
         return label
     }()
     
@@ -84,27 +85,25 @@ class ForecastCollectionViewCell: UICollectionViewCell {
         if let date = dateFormatterGet.date(from: item.time) {
             hourlyTimeLabel.text = dateFormatter.string(from: date)
         }
-
-        temperatureLabel.text = String(item.temp)
-        humidityLabel.text = String(item.humidity)
         
         guard let url = URL(string: "http://openweathermap.org/img/wn/\(item.icon)@2x.png") else {return}
         print("check random image ---> \(url)")
 
         tempSymbol.loadImageFromURL(url: "http://openweathermap.org/img/wn/\(item.icon)@2x.png")
         
+        tempSymbol.sd_setImage(with: url)
         
-//        tempSymbol.sd_setImage(with: url)
-        
-//        configureImage(with: ForecastWeatherViewModel(weekDay: nil, hourlyForecast: nil, conditionId: item.id))
+        configureData(with: ForecastWeatherViewModel(weekDay: nil, hourlyForecast: nil, conditionId: item.id, temperature: item.temp, humidity: item.humidity))
     }
     
-//    func configureImage(with vm: ForecastWeatherViewModel) {
-//
-//        DispatchQueue.main.async { [weak self] in
+    func configureData(with vm: ForecastWeatherViewModel) {
+
+        DispatchQueue.main.async { [weak self] in
 //            self?.tempSymbol.image = UIImage(named: vm.conditionName)
-//        }
-//    }
+            self?.temperatureLabel.text = vm.temperatureString
+            self?.humidityLabel.text = vm.humidityString
+        }
+    }
     
 }
 

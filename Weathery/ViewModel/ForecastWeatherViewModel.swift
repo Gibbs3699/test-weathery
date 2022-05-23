@@ -11,6 +11,8 @@ struct ForecastWeatherViewModel {
     let weekDay: String?
     let hourlyForecast: [WeatherInfo]?
     let conditionId: Int
+    let temperature: Double
+    let humidity: Double
     
     var conditionName: String {
         switch conditionId {
@@ -31,6 +33,22 @@ struct ForecastWeatherViewModel {
         default:
             return "cloud"
         }
+    }
+    
+    var temperatureString : String {
+        let tempRounded = String(format: "%.1f", temperature)
+        
+        if UserDefaults.standard.value(forKey: "unit") as! String == "metric" {
+            return "\(tempRounded) °C"
+        } else {
+            return "\(tempRounded) °F"
+        }
+    }
+    
+    var humidityString : String {
+        let humidity = String(format: "%.1f", humidity)
+        
+        return "\(humidity) °"
     }
     
 }

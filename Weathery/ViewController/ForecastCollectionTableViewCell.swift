@@ -20,7 +20,7 @@ class ForecastCollectionTableViewCell: UITableViewCell {
         layout.itemSize = CGSize(width: 100, height: 100)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ForecastCollectionViewCell.self, forCellWithReuseIdentifier: ForecastCollectionViewCell.identifier)
-        collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = UIColor(red: 0.29, green: 0.224, blue: 0.498, alpha: 1.0)
         return collectionView
     }()
     
@@ -60,7 +60,7 @@ extension ForecastCollectionTableViewCell: UICollectionViewDelegate, UICollectio
         }
         
         cell.configure(with: dailyForecast[indexPath.row])
-        cell.backgroundColor = .clear
+        cell.backgroundColor = UIColor(red: 0.29, green: 0.224, blue: 0.498, alpha: 1.0)
         
         return cell
     }
