@@ -37,7 +37,6 @@ class SettingUnitViewModel {
             var unitValue = ""
             if let value = userDefaults.value(forKey: "unit") as? String {
                 unitValue = value
-                print("PPPP get value ---> \(unitValue)")
             }
             return Unit(rawValue: unitValue)!
         }

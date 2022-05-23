@@ -6,12 +6,17 @@
 //
 
 import UIKit
+import CoreLocation
 
-class RootViewController: UIViewController {
+class CurrentWeatherViewController: UIViewController, CLLocationManagerDelegate {
     
     private var settingUnitViewModel = SettingUnitViewModel()
+    private var weatherView = CurrentWeatherView()
     
-    private var weatherView = WeatherView()
+    var locationManager = CLLocationManager()
+    var currentLoc: CLLocation?
+    var latitude : CLLocationDegrees!
+    var longitude: CLLocationDegrees!
     
     private let background: UIImageView = {
         let imageView = UIImageView()
@@ -81,41 +86,88 @@ class RootViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        
         setupConstraints()
+        
+        searchTextField.delegate = self
+        
+        UserDefaults.standard.set("metric", forKey: "unit")
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        let city = UserDefaults.standard.string(forKey: "SelectedCity") ?? ""
-        loadCuerrentWeather(city: city)
+        let userDefaults =  UserDefaults.standard
+        let city = userDefaults.string(forKey: "SelectedCity") ?? ""
+        
+        if let lat = userDefaults.string(forKey: "lat"),  let lon = userDefaults.string(forKey: "lon"){
+            loadDataUsingCoordinates(lat: lat, lon: lon)
+        } else {
+            loadCuerrentWeather(city: city)
+        }
+
     }
     
     @objc func searchPressed(sender: UIButton) {
         if let city = searchTextField.text {
             
-            loadCuerrentWeather(city: city)
+            loadCuerrentWeather(city: city.escaped())
         }
     }
     
-    private func loadCuerrentWeather(city: String) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        manager.stopUpdatingLocation()
+        manager.delegate = nil
+        let location = locations[0].coordinate
+        latitude = location.latitude
+        longitude = location.longitude
         
+        let userDefaults =  UserDefaults.standard
+        userDefaults.set(latitude, forKey: "lat")
+        userDefaults.set(longitude, forKey: "lon")
+    
+        loadDataUsingCoordinates(lat: latitude.description, lon: longitude.description)
+    }
+    
+    private func loadCuerrentWeather(city: String) {
         Webservice.shared.getCurrentWeather(city: city, completion: {
             [weak self] (result) in
             switch result {
             case .Success(let vm):
                 self?.weatherView.configure(with: CurrentWeatherViewModel(conditionId: vm.weather[0].id, cityName: vm.name, temperature: vm.main.temp, humidity:  vm.main.humidity, conditionDescription: vm.weather[0].description))
                 
+                    let userDefaults =  UserDefaults.standard
+                    userDefaults.set(nil, forKey: "lat")
+                    userDefaults.set(nil, forKey: "lon")
+                
             case .Error(let error):
                 print("Fail to fetch the weather: \(error)")
             }
-            
-            print(result)
         })
+    }
+    
+    func loadDataUsingCoordinates(lat: String, lon: String) {
+        Webservice.shared.getCurrentLocationWeather(lat: lat, lon: lon) {
+ 
+            [weak self] (result) in
+            switch result {
+            case .Success(let vm):
+                self?.weatherView.configure(with: CurrentWeatherViewModel(conditionId: vm.weather[0].id, cityName: vm.name, temperature: vm.main.temp, humidity:  vm.main.humidity, conditionDescription: vm.weather[0].description))
+                
+                UserDefaults.standard.set("\(vm.name.escaped())", forKey: "SelectedCity")
+                
+            case .Error(let error):
+                print("Fail to fetch the weather: \(error)")
+            }
+        }
     }
 
 }
 
-extension RootViewController {
+extension CurrentWeatherViewController {
     
     private func setupConstraints() {
         view.addSubview(background)
@@ -159,10 +211,32 @@ extension RootViewController {
             searchButton.leftAnchor.constraint(equalTo:        searchTextField.leftAnchor),
             
             // weatherView
-            weatherView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+            weatherView.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
              weatherView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
         ])
     }
 }
 
+//MARK: - UITextFieldDelegate
+
+extension CurrentWeatherViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchTextField.endEditing(true)
+        return true
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if textField.text != "" {
+            return true
+        }else {
+            return false
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        searchTextField.text = ""
+    }
+    
+}

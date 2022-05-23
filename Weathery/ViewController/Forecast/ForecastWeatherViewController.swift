@@ -22,8 +22,9 @@ class ForecastWeatherViewController: UITableViewController {
         tableView.separatorColor = .clear
         
         let city = UserDefaults.standard.string(forKey: "SelectedCity") ?? ""
-        print("City Forecast:", city)
-        loadForecastWeather(city: city)
+        
+        loadForecastWeather(city: city.escaped())
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -32,8 +33,8 @@ class ForecastWeatherViewController: UITableViewController {
         forecastWeather = []
         
         let city = UserDefaults.standard.string(forKey: "SelectedCity") ?? ""
-        print("City Forecast:", city)
-        loadForecastWeather(city: city)
+        
+        loadForecastWeather(city: city.escaped())
     }
     
     private func loadForecastWeather(city: String) {
@@ -49,8 +50,7 @@ class ForecastWeatherViewController: UITableViewController {
             case .Error(let error):
                 print("Fail to fetch the weather: \(error)")
             }
-            
-            print(result)
+
         })
     }
     
@@ -65,7 +65,7 @@ class ForecastWeatherViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else {return}
         header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 20, y: header.bounds.origin.y, width: 80, height: header.bounds.height)
+        header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 20, y: header.bounds.origin.y, width: 200, height: header.bounds.height)
         header.textLabel?.textColor = .white
     }
     
@@ -82,8 +82,6 @@ class ForecastWeatherViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ForecastCollectionTableViewCell.identifier, for: indexPath) as? ForecastCollectionTableViewCell else {
             return UITableViewCell()
         }
-        
-        print("PPPP check forecastWeather ---> \(forecastWeather[indexPath.row])")
         
         cell.configure(with: forecastWeather[indexPath.section])
         

@@ -46,8 +46,6 @@ class SettingsUnitTableViewController: UITableViewController {
             if userDefaults.value(forKey: "unit") == nil {
                 userDefaults.set(unit, forKey: "unit")
             }
-            
-            print("PPPP get unit setting ---> \(userDefaults.value(forKey: "unit"))")
         }
         
     }

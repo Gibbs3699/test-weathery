@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WeatherView: UIView {
+class CurrentWeatherView: UIView {
     
     // animation
     private var animateLeadingAnchor: NSLayoutConstraint?
@@ -42,7 +42,7 @@ class WeatherView: UIView {
     
     private var temperatureLabel: UILabel = {
         let label = UILabel()
-        label.setImageWithText(text: "32", leftIcon: UIImage(named: "temperature"), rightIcon: nil)
+        label.setImageWithText(text: "temp", leftIcon: UIImage(named: "temperature"), rightIcon: nil)
         label.font = UIFont.systemFont(ofSize: 30)
         label.textColor = .white
         
@@ -52,7 +52,7 @@ class WeatherView: UIView {
     private var humidityLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 30)
-        label.setImageWithText(text: "32", leftIcon: UIImage(named: "humidity"), rightIcon: nil)
+        label.setImageWithText(text: "hum", leftIcon: UIImage(named: "humidity"), rightIcon: nil)
         label.textColor = .white
         
         return label
@@ -61,7 +61,7 @@ class WeatherView: UIView {
     private var cityLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 34)
-        label.text = "Bangkok"
+        label.text = "Location..."
         label.textColor = .white
         
         return label
@@ -95,13 +95,14 @@ class WeatherView: UIView {
             self?.humidityLabel.text = vm.humidityString
             self?.conditionLabel.text = vm.conditionDescription
             self?.conditionImageView.image = UIImage(named: vm.conditionName)
+            
             UserDefaults.standard.set("\(vm.cityName )", forKey: "SelectedCity")
         }
     }
 
 }
 
-extension WeatherView {
+extension CurrentWeatherView {
     
     private func setupConstraints() {
         rootStackView.addArrangedSubview(cityLabel)
@@ -124,6 +125,7 @@ extension WeatherView {
             // rootStackView
             rootStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             
+            
             // conditionImageView
             conditionImageView.widthAnchor.constraint(equalToConstant: 300),
             conditionImageView.heightAnchor.constraint(equalToConstant: 200),
@@ -138,7 +140,7 @@ extension WeatherView {
 
 // MARK: - Animations
 
-extension WeatherView {
+extension CurrentWeatherView {
     
     private func animate() {
         let duration = 0.5

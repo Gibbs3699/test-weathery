@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import CoreLocation
 
 enum NetworkResult<T> {
     case Success(T)
@@ -20,9 +21,7 @@ class Webservice {
     func getCurrentWeather(city: String, completion: @escaping (NetworkResult<CurrentWeather>) -> Void) {
         
         guard let url = URL(string: APIClient.getCurrentWeather(city: city)) else { return }
-        
-        print("\n\n\(url)\n\n")
-        
+
         AF.request(url).responseData { (dataResponse) in
             if let error = dataResponse.error {
                 print("Handle Error Please: \(error)")
@@ -41,15 +40,36 @@ class Webservice {
                 print("Failed to decode, Handle Error here: \(decodeError)")
             }
         }
+    }
     
+    func getCurrentLocationWeather(lat: String, lon: String , completion: @escaping (NetworkResult<CurrentWeather>) -> Void) {
+        
+        guard let url = URL(string: APIClient.getCurrentLocationWeather(latitude: lat, longtitude: lon)) else { return }
+            
+        AF.request(url).responseData { (dataResponse) in
+            if let error = dataResponse.error {
+                print("Handle Error Please: \(error)")
+            }
+            
+            guard let data = dataResponse.data else {
+                print("no daata")
+                return
+            }
+            
+            do {
+                let result = try JSONDecoder().decode(CurrentWeather.self, from: data)
+                completion(.Success(result))
+            }
+            catch let decodeError {
+                print("Failed to decode, Handle Error here: \(decodeError)")
+            }
+        }
     }
     
     func getForecastWeather(city: String, completion: @escaping (NetworkResult<[ForecastWeatherList]>) -> Void) {
         
         guard let url = URL(string: APIClient.getForecasteWeather(city: city)) else { return }
-        
-        print("\n\n\(url)\n\n")
-        
+
         var currentDayTemp = ForecastWeatherList(weekDay: nil, hourlyForecast: nil)
         var secondDayTemp = ForecastWeatherList(weekDay: nil, hourlyForecast: nil)
         var thirdDayTemp = ForecastWeatherList(weekDay: nil, hourlyForecast: nil)
@@ -119,24 +139,24 @@ class Webservice {
                         let info = WeatherInfo(temp: temperature, humidity: humidity, description: descriptionTemp, time: time, id: id, icon: icon)
                         currentDayForecast.append(info)
                         currentDayTemp = ForecastWeatherList(weekDay: currentweekdaysymbol, hourlyForecast: currentDayForecast)
-                        print("1")
+                        
                         fetchedData.append(info)
                     }else if weekdaycomponent == currentWeekDay.incrementWeekDays(by: 1) {
                         let info = WeatherInfo(temp: temperature, humidity: humidity, description: descriptionTemp, time: time, id: id, icon: icon)
                         secondDayForecast.append(info)
                         secondDayTemp = ForecastWeatherList(weekDay: weekday, hourlyForecast: secondDayForecast)
-                        print("2")
+                        
                         fetchedData.append(info)
                     }else if weekdaycomponent == currentWeekDay.incrementWeekDays(by: 2) {
                         let info = WeatherInfo(temp: temperature, humidity: humidity, description: descriptionTemp, time: time, id: id, icon: icon)
                         thirddayDayForecast.append(info)
-                        print("3")
+                        
                         thirdDayTemp = ForecastWeatherList(weekDay: weekday, hourlyForecast: thirddayDayForecast)
                         fetchedData.append(info)
                     }else if weekdaycomponent == currentWeekDay.incrementWeekDays(by: 3) {
                         let info = WeatherInfo(temp: temperature, humidity: humidity, description: descriptionTemp, time: time, id: id, icon: icon)
                         fourthDayDayForecast.append(info)
-                        print("4")
+                        
                         fourthDayTemp = ForecastWeatherList(weekDay: weekday, hourlyForecast: fourthDayDayForecast)
                         fetchedData.append(info)
                     }else if weekdaycomponent == currentWeekDay.incrementWeekDays(by: 4){
@@ -144,13 +164,13 @@ class Webservice {
                         fifthDayForecast.append(info)
                         fifthDayTemp = ForecastWeatherList(weekDay: weekday, hourlyForecast: fifthDayForecast)
                         fetchedData.append(info)
-                        print("5")
+                        
                     }else if weekdaycomponent == currentWeekDay.incrementWeekDays(by: 5) {
                         let info = WeatherInfo(temp: temperature, humidity: humidity, description: descriptionTemp, time: time, id: id, icon: icon)
                         sixthDayForecast.append(info)
                         sixthDayTemp = ForecastWeatherList(weekDay: weekday, hourlyForecast: sixthDayForecast)
                         fetchedData.append(info)
-                        print("6")
+                        
                     }
 
                     

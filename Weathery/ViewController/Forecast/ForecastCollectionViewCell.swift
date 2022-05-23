@@ -74,7 +74,6 @@ class ForecastCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with item: WeatherInfo) {
-//        print("PPPP get date ----> \(item.icon)")
     
         let dateFormatterGet = DateFormatter()
         dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -87,7 +86,6 @@ class ForecastCollectionViewCell: UICollectionViewCell {
         }
         
         guard let url = URL(string: "http://openweathermap.org/img/wn/\(item.icon)@2x.png") else {return}
-        print("check random image ---> \(url)")
 
         tempSymbol.loadImageFromURL(url: "http://openweathermap.org/img/wn/\(item.icon)@2x.png")
         
