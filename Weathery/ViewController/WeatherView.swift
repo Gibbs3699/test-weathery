@@ -95,8 +95,8 @@ class WeatherView: UIView {
             self?.humidityLabel.text = String(vm.humidity)
             self?.conditionLabel.text = vm.conditionDescription
             self?.conditionImageView.image = UIImage(named: vm.conditionName)
+            UserDefaults.standard.set("\(vm.cityName )", forKey: "SelectedCity")
         }
-        
     }
 
 }

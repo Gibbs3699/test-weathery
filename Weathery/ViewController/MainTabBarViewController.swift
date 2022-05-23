@@ -33,6 +33,7 @@ extension MainTabBarViewController {
         vc1.title = "Current Weather"
         vc2.title = "Forecase Weather"
         
+        tabBar.backgroundColor = .clear
         tabBar.tintColor = .white
         tabBar.unselectedItemTintColor = .white.withAlphaComponent(0.5)
         
@@ -43,7 +44,7 @@ extension MainTabBarViewController {
     private func setupConstraints() {
         
         let layer = CAShapeLayer()
-        layer.path = UIBezierPath(roundedRect: CGRect(x: 30, y: self.tabBar.bounds.minY - 15, width: self.tabBar.bounds.width - 60, height: self.tabBar.bounds.height + 30), cornerRadius: (self.tabBar.frame.width/2)).cgPath
+        layer.path = UIBezierPath(roundedRect: CGRect(x: 30, y: self.tabBar.bounds.minY - 5, width: self.tabBar.bounds.width - 60, height: self.tabBar.bounds.height + 20), cornerRadius: (self.tabBar.frame.width/2)).cgPath
         layer.shadowColor = UIColor.lightGray.cgColor
         layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
         layer.shadowRadius = 25.0

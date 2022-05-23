@@ -8,5 +8,6 @@ target 'Weathery' do
   # Pods for Weathery
 
 pod 'Alamofire'
+pod 'SDWebImage', '~> 5.0'
 
 end

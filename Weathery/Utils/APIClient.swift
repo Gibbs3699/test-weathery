@@ -14,4 +14,8 @@ public struct APIClient {
     static func getCurrentWeather(city: String) -> String {
         return "\(baseUrl)/data/2.5/weather?q=\(city)&appid=\(apiKey)"
     }
+    
+    static func getForecasteWeather(city: String) -> String {
+        return "\(baseUrl)/data/2.5/forecast?q=\(city)&appid=\(apiKey)"
+    }
 }

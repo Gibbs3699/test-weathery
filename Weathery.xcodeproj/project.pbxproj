@@ -23,7 +23,11 @@
 		DC686AC9283A4B6D00414DCF /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686AC8283A4B6D00414DCF /* RootViewController.swift */; };
 		DC686ACC283A502100414DCF /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686ACB283A502100414DCF /* MainTabBarViewController.swift */; };
 		DC686ACE283A506800414DCF /* ForecastWeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686ACD283A506800414DCF /* ForecastWeatherViewController.swift */; };
-		DC686AD2283A776400414DCF /* ForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686AD1283A776400414DCF /* ForecastTableViewCell.swift */; };
+		DC686AD2283A776400414DCF /* ForecastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686AD1283A776400414DCF /* ForecastCollectionViewCell.swift */; };
+		DC686AD6283AB68500414DCF /* ForecastWeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686AD5283AB68500414DCF /* ForecastWeatherViewModel.swift */; };
+		DC686AD8283AB95400414DCF /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686AD7283AB95400414DCF /* Int+Extension.swift */; };
+		DC686ADA283B4C6700414DCF /* ForecastCollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686AD9283B4C6700414DCF /* ForecastCollectionTableViewCell.swift */; };
+		DC686ADC283B735A00414DCF /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC686ADB283B735A00414DCF /* UIImageView+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,7 +50,11 @@
 		DC686AC8283A4B6D00414DCF /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		DC686ACB283A502100414DCF /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		DC686ACD283A506800414DCF /* ForecastWeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastWeatherViewController.swift; sourceTree = "<group>"; };
-		DC686AD1283A776400414DCF /* ForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastTableViewCell.swift; sourceTree = "<group>"; };
+		DC686AD1283A776400414DCF /* ForecastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCollectionViewCell.swift; sourceTree = "<group>"; };
+		DC686AD5283AB68500414DCF /* ForecastWeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastWeatherViewModel.swift; sourceTree = "<group>"; };
+		DC686AD7283AB95400414DCF /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
+		DC686AD9283B4C6700414DCF /* ForecastCollectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCollectionTableViewCell.swift; sourceTree = "<group>"; };
+		DC686ADB283B735A00414DCF /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		F88E00213F34CECD5D3AC869 /* Pods-Weathery.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weathery.debug.xcconfig"; path = "Target Support Files/Pods-Weathery/Pods-Weathery.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,6 +128,8 @@
 			children = (
 				DC686AB42837A6EB00414DCF /* UIView+Extension.swift */,
 				DC686AB6283811EF00414DCF /* UILabel+Extension.swift */,
+				DC686AD7283AB95400414DCF /* Int+Extension.swift */,
+				DC686ADB283B735A00414DCF /* UIImageView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -156,7 +166,8 @@
 				DC686AC8283A4B6D00414DCF /* RootViewController.swift */,
 				DC686ACB283A502100414DCF /* MainTabBarViewController.swift */,
 				DC686ACD283A506800414DCF /* ForecastWeatherViewController.swift */,
-				DC686AD1283A776400414DCF /* ForecastTableViewCell.swift */,
+				DC686AD9283B4C6700414DCF /* ForecastCollectionTableViewCell.swift */,
+				DC686AD1283A776400414DCF /* ForecastCollectionViewCell.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -165,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				DC686AC62839494A00414DCF /* CurrentWeatherViewModel.swift */,
+				DC686AD5283AB68500414DCF /* ForecastWeatherViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -284,14 +296,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC686AA428379D3400414DCF /* WeatherView.swift in Sources */,
+				DC686AD8283AB95400414DCF /* Int+Extension.swift in Sources */,
 				DC686ACE283A506800414DCF /* ForecastWeatherViewController.swift in Sources */,
 				DC686AC42839394C00414DCF /* ForecastWeather.swift in Sources */,
 				DC686AA028379D3400414DCF /* AppDelegate.swift in Sources */,
-				DC686AD2283A776400414DCF /* ForecastTableViewCell.swift in Sources */,
+				DC686AD6283AB68500414DCF /* ForecastWeatherViewModel.swift in Sources */,
+				DC686AD2283A776400414DCF /* ForecastCollectionViewCell.swift in Sources */,
 				DC686AC9283A4B6D00414DCF /* RootViewController.swift in Sources */,
 				DC686AC12839364500414DCF /* Webservice.swift in Sources */,
+				DC686ADA283B4C6700414DCF /* ForecastCollectionTableViewCell.swift in Sources */,
 				DC686AB7283811EF00414DCF /* UILabel+Extension.swift in Sources */,
 				DC686ABF2839353D00414DCF /* CurrentWeather.swift in Sources */,
+				DC686ADC283B735A00414DCF /* UIImageView+Extension.swift in Sources */,
 				DC686AA228379D3400414DCF /* SceneDelegate.swift in Sources */,
 				DC686AC72839494A00414DCF /* CurrentWeatherViewModel.swift in Sources */,
 				DC686AB52837A6EB00414DCF /* UIView+Extension.swift in Sources */,
